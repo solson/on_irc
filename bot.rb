@@ -26,7 +26,8 @@ irc.on_privmsg do |e|
     irc.part(e.recipient)
   when '!quit'
     if e.sender.host == 'unaffiliated/sco50000'
-      abort('Told to quit by ' + e.sender.mask.to_s + ' in ' + e.recipient)
+      puts('Told to quit by ' + e.sender.mask.to_s + ' in ' + e.recipient)
+      exit
     else
       irc.msg(e.recipient, e.sender.nick + ': no u')
     end
@@ -46,5 +47,7 @@ end
 irc.on_all_events do |e|
 	p e
 end
+
+
 
 irc.connect
