@@ -46,11 +46,15 @@ class IRC
 	Event.parser('PING') do |sender, params|
 		attribute :origin
 		@origin = params[0]
-	end
-	
+	end	
 	Event.parser('PONG') do |sender, params|
 		attribute :sender, :origin
 		@sender, @origin = sender, params[1]
 	end
+
+  Event.parser('QUIT') do |sender, params|
+    attribute :sender, :message
+    @sender, @message = sender, params[0]
+  end
 	
 end
