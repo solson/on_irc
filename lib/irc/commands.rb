@@ -69,5 +69,14 @@ class IRC
 	def pong(message)
 		raw "PONG :#{message}"
 	end
-	
+
+
+  def quit(message=nil)
+    if message
+      raw "QUIT :#{message}"
+    else
+      raw "QUIT"
+    end
+  end
+
 end
