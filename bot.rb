@@ -11,7 +11,7 @@ irc = IRC.new( :server => 'irc.freenode.org',
               :options => { :use_ssl => false } )
 
 irc.on_001 do
-	irc.join '#botters,##scott'
+  irc.join '#botters,##scott'
 end
 
 irc.on_privmsg do |e|
@@ -45,7 +45,7 @@ irc.on_privmsg do |e|
 end
 
 irc.on_all_events do |e|
-	p e
+  p e
 end
 
 
