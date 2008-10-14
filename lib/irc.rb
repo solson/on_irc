@@ -39,11 +39,11 @@ class IRC
     # Argument checking
     raise ArgumentError, 'No server specified' unless @server
     raise ArgumentError, 'No nickname specified' unless @nick
-    raise TypeError, ":server must be a String" unless @server.is_a? String
-    raise TypeError, ":port must be a Fixnum" unless @port.is_a? Fixnum
-    raise TypeError, ":nick must be a String" unless @nick.is_a? String
-    raise TypeError, ":ident must be a String" unless @ident.is_a? String
-    raise TypeError, ":realname must be a String" unless @realname.is_a? String
+    raise TypeError, ":server must be a String" unless @server.respond_to? :to_str
+    raise TypeError, ":port must be a Fixnum" unless @port.respond_to? :to_int
+    raise TypeError, ":nick must be a String" unless @nick.respond_to? :to_str
+    raise TypeError, ":ident must be a String" unless @ident.respond_to? :to_str
+    raise TypeError, ":realname must be a String" unless @realname.respond_to? :to_str
     raise TypeError, ":options must be a Hash" unless @options.is_a? Hash
   end
   
