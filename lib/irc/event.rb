@@ -47,21 +47,20 @@ class IRC
       end
     end
     
-    def method_missing(m, *args)
-      if @attributes.include? m
-        instance_variable_get("@#{m}")
-      else
-        raise NoMethodError, "undefined method '#{m}' for #{self}"
-      end
-    end
-    
     def attribute(*args)
       attributes(*args)
     end
     
     def attributes(*args)
-      args.map!{|i| i.to_sym}
+      args.map!(&:to_sym)
       @attributes.push(*args)
+      args.each do |arg|
+        eval("
+          class << self
+            define_method(#{arg.to_s.inspect}) { instance_variable_get(#{('@' + arg.to_s).inspect}) }
+          end
+        ")
+      end
     end
     
     def self.parser(command, &blck)
