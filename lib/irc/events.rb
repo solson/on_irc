@@ -1,8 +1,6 @@
 require 'irc/event'
 
 class IRC
-#  PING = Struct.new(:origin)
-#  PONG = Struct.new(:sender, :origin)
   
   Event.parser('PRIVMSG') do |sender, params|
     attributes :sender, :recipient, :message
@@ -48,12 +46,12 @@ class IRC
     @origin = params[0]
   end  
   Event.parser('PONG') do |sender, params|
-    attribute :sender, :origin
+    attributes :sender, :origin
     @sender, @origin = sender, params[1]
   end
 
   Event.parser('QUIT') do |sender, params|
-    attribute :sender, :message
+    attributes :sender, :message
     @sender, @message = sender, params[0]
   end
   
