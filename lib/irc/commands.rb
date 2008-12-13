@@ -63,7 +63,7 @@ class IRC
   
   
   def ping(message)
-    self.raw "PING :#(message)"
+    self.raw "PING :#{message}"
   end
   
   def pong(message)
