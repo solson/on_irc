@@ -12,7 +12,11 @@ class IRC
         prefix = prefix[1..-1] # get rid of the beginning :
         
         # make the prefix a User if it matches; otherwise it's a server
-        prefix = User.new(prefix) if prefix =~ /^[^!]+![^@]+@.*$/
+        if prefix =~ /^[^!]+![^@]+@.*$/
+          prefix = User.new(prefix)
+        else
+          def prefix.is_user?; false; end
+        end
       end
       
       if command = line[ /\s*[^ ]+/ ] # The next word is the command
