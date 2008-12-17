@@ -1,17 +1,34 @@
 $LOAD_PATH << './lib'
 require 'irc'
 
-$b = binding()
+$b = binding() # for !eval
 
-irc = IRC.new( :server => 'irc.freenode.org',
-                 :port => 6667,
-                 :nick => 'on_scott',
-                :ident => 'on_irc',
-             :realname => 'on_irc Ruby IRC library',
-              :options => { :use_ssl => false } )
+irc = IRC.new do
+  nick 'on_irc'
+  # if ident/realname is not supplied, nick will be used for the ident/realname
+  ident 'on_irc'
+  realname 'on_irc Ruby IRC library'
+  
+  server 'freenode' do
+    address 'irc.freenode.org'
+    # port defaults to 6667
+    
+    # this server will default to the global nick/ident/realname
+  end
+  
+  server 'ExampleNet' do
+    address 'irc.example.net'
+    # when we use ssl, the port defaults to 6697 instead of 6667,
+    # so we don't have to put the port unless it's a non standard port
+    port 6697 
+    ssl
+
+    nick 'on_irc123' # this server will use this nick, and the global ident/realname
+end
+
 
 irc.on_001 do
-  irc.join '#botters,##scott'
+  irc.join '#on_irc'
 end
 
 irc.on_privmsg do |e|
@@ -22,32 +39,11 @@ irc.on_privmsg do |e|
     irc.msg(e.recipient, e.sender.nick + ': ' + $1)
   when /^!join (.*)/
     irc.join($1)
-  when '!part'
-    irc.part(e.recipient)
-  when '!quit'
-    if e.sender.host == 'unaffiliated/sco50000'
-      puts('Told to quit by ' + e.sender.mask.to_s + ' in ' + e.recipient)
-      exit
-    else
-      irc.msg(e.recipient, e.sender.nick + ': no u')
-    end
-  when /^!eval (.*)/
-    if e.sender.host == 'unaffiliated/sco50000'
-      begin
-        irc.msg(e.recipient, eval($1, $b, 'eval', 1))
-      rescue Exception => error
-        irc.msg(e.recipient, error.message)
-      end
-    else
-      irc.msg(e.recipient, 'compile error')
-    end
   end
 end
 
 irc.on_all_events do |e|
   p e
 end
-
-
 
 irc.connect

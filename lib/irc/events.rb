@@ -17,7 +17,7 @@ class IRC
       @sender, @channel, @modes = sender, params[0], params[1]
       @type = 'CHMODE'
     else
-      attributes :modes
+      attribute :modes
       @modes = params[1..-1].join(' ')
       @type = 'UMODE'
     end
