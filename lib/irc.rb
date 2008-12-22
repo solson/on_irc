@@ -1,3 +1,4 @@
+$LOAD_PATH.unshift File.dirname(__FILE__)
 require 'socket'
 require 'irc/configdslhelper'
 require 'irc/commands'
@@ -10,13 +11,14 @@ require 'irc/server'
 
 class IRC
   class Config
-    attr_accessor :nick, :ident, :realname
+    attr_accessor :nick, :ident, :realname, :servers
     
     def self.new_from_dsl(dsl)
       conf = new
       conf.nick = dsl.nick
       conf.ident = dsl.ident || dsl.nick
       conf.realname = dsl.realname || dsl.nick
+      conf.servers = dsl.servers || []
       conf
     end
     
@@ -24,12 +26,17 @@ class IRC
       dsl_accessor :nick, :ident, :realname
       
       def server(name, &blk)
-        Server.new(&blk)
+        @servers ||= []
+        @servers << Server.new(name, &blk)
+      end
+      
+      def servers
+        @servers
       end
     end
   end
   
-  attr_reader :servers, :config
+  attr_accessor :servers, :config
   
   def initialize(&blk)
     dsl = Config::DSL.new

@@ -29,12 +29,13 @@ class IRC
       end
     end
     
-    attr_accessor :config
+    attr_accessor :config, :name
     
-    def initialize(&blk)
+    def initialize(name, &blk)
       dsl = Config::DSL.new
       dsl.instance_eval(&blk)
       @config = Config.new_from_dsl(dsl)
+      @name = name
     end
     
   end
