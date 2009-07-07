@@ -14,4 +14,18 @@ class Module
       }
     end
   end
+  
+  def bool_dsl_accessor(*symbols)
+    symbols.each do |sym|
+      class_eval %{
+        def #{sym}(val = true)
+          @#{sym} = !!val
+        end
+        
+        def #{sym}?
+          !!@#{sym}
+        end
+      }
+    end
+  end
 end

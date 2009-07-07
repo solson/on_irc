@@ -1,37 +1,49 @@
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), 'lib'))
-require 'irc'
+#!/usr/bin/env ruby
+require File.join(File.dirname(__FILE__), 'lib', 'on_irc')
 
-irc = IRC.new do
+IRC.configure do
   nick 'on_irc'
   ident 'on_irc'
   realname 'on_irc Ruby IRC library'
   
-  server 'freenode' do
+  server :eighthbit do
+    address 'irc.eighthbit.net'
+  end
+  
+  server :freenode do
     address 'irc.freenode.org'
   end
 end
 
 
-# irc.on_001 do
-#   irc.join '#on_irc'
-# end
-# 
-# irc.on_privmsg do |e|
-#   case e.message
-#   when '!ping'
-#     irc.msg(e.recipient, e.sender.nick + ': pong')
-#   when /^!echo (.*)/
-#     irc.msg(e.recipient, e.sender.nick + ': ' + $1)
-#   when /^!join (.*)/
-#     irc.join($1)
-#   end
-# end
-# 
-# irc.on_all_events do |e|
-#   p e
-# end
-# 
-# irc.connect
+IRC[:freenode].on :'001' do |e|
+  IRC.send(e.server, :join, '#botters')
+end
 
-require 'pp'
-pp irc
+IRC[:eighthbit].on :'001' do |e|
+  IRC.send(e.server, :join, '#offtopic')
+end
+
+IRC.on :privmsg do |e|
+  case e.params[1]
+  when '!ping'
+    IRC.send(e.server, :privmsg, e.params[0], e.prefix.split('!').first + ': pong')
+  when /^!echo (.*)/
+    s = $1
+    IRC.send(e.server, :privmsg, e.params[0], e.prefix.split('!').first + ': ' + s)
+  when /^!join (.*)/
+    IRC.send(e.server, :join, $1)
+  end
+end
+
+IRC.on :ping do |e|
+  IRC.send(e.server, :pong, e.params[0])
+end
+
+IRC.on :all do |e|
+  prefix = "(#{e.prefix}) " unless e.prefix.empty?
+  puts "#{e.server}: #{prefix}#{e.command} #{e.params.inspect}"
+end
+
+IRC.connect
+
