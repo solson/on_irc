@@ -35,8 +35,8 @@ module IRC
     end
     
     def receive_line(line)
-      parsed = Parser.parse(line)
-      event = Event.new(@server, parsed[0], parsed[1].downcase.to_sym, parsed[2])
+      parsed_line = Parser.parse(line)
+      event = Event.new(@server, parsed_line[:prefix], parsed_line[:command].downcase.to_sym, parsed_line[:params])
       
       handle_event(event)
     end

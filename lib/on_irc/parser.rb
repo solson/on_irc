@@ -26,7 +26,7 @@ module IRC
         end
       end
       
-      [prefix, command, params]
+      {:prefix => prefix, :command => command, :params => params}
     end
   end
 end
