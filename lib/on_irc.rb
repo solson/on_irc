@@ -1,5 +1,5 @@
 %w[rubygems eventmachine socket strscan].each { |lib| require lib }
-%w[event parser dsl_accessor config_accessor server config connection].each do |lib|
+%w[event parser dsl_accessor config_accessor server config connection callback].each do |lib|
   require File.join(File.dirname(__FILE__), 'on_irc', lib)
 end
 
@@ -14,7 +14,7 @@ module IRC
     end
 
     def on(event, &block)
-      @handlers[event.to_s.downcase.to_sym] = block
+      @handlers[event.to_s.downcase.to_sym] = Callback.new(block)
     end
     
     def [](server_id)
