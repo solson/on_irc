@@ -18,6 +18,7 @@ module IRC
         @event = event
       end
 
+      # @event accessors
       def prefix
         @event.prefix
       end
@@ -33,6 +34,28 @@ module IRC
       def params
         @event.params
       end
+
+      # commands
+      def send(*args)
+        if args[0].is_a?(Symbol) && args[1].is_a?(String)
+          IRC.send(@event.server, *args) # now we don't have to do send(e.server, ...) all the time
+        else
+          IRC.send(*args)
+        end
+      end
+
+      alias raw send
+
+      def privmsg(target, message)
+        send(:privmsg, target, message)
+      end
+
+      alias msg privmsg
+
+      def join(channel)
+        send(:join, channel)
+      end
+
     end
   end
 end

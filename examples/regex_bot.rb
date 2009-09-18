@@ -55,18 +55,18 @@ IRC.configure do
 #  end
 end
 
-IRC[:eighthbit].on :'001' do |e|
-  IRC.send(e.server, :join, '#programming')
-  IRC.send(e.server, :join, '#offtopic')
+IRC[:eighthbit].on :'001' do
+  join '#programming'
+  join '#offtopic'
 end
 
-IRC.on :privmsg do |e|
-  next unless e.params[0][0,1] == '#' # make sure regex replace only happens in channels
-  channel = e.params[0]
-  user = e.prefix.split('!').first
-  message = e.params[1]
+IRC.on :privmsg do
+  next unless params[0][0,1] == '#' # make sure regex replace only happens in channels
+  channel = params[0]
+  user = prefix.split('!').first
+  message = params[1]
 
-  if e.params[1] =~ %r"^(!{0,#{MAX_BANGS}})s/((?:[^\\/]|\\.)*)/((?:[^\\/]|\\.)*)/(?:(\w*))?"
+  if params[1] =~ %r"^(!{0,#{MAX_BANGS}})s/((?:[^\\/]|\\.)*)/((?:[^\\/]|\\.)*)/(?:(\w*))?"
     bangs   = $1
     match   = $2
     replace = $3
@@ -75,7 +75,7 @@ IRC.on :privmsg do |e|
     begin
       match = Regexp.new match
     rescue RegexpError => err
-      IRC.send(e.server, :privmsg, e.params[0], 'RegexpError: ' + err.message)
+      privmsg(params[0], 'RegexpError: ' + err.message)
       next
     end
 
@@ -92,10 +92,10 @@ IRC.on :privmsg do |e|
       answer = target.sub(match, replace)
     end
 
-    if bangs.length > 0 || CHANNEL_MEMORY[channel][0] == e.prefix.split('!').first
-      IRC.send(e.server, :privmsg, e.params[0], e.prefix.split('!').first + ' meant: ' + answer)
+    if bangs.length > 0 || CHANNEL_MEMORY[channel][0] == prefix.split('!').first
+      privmsg(params[0], prefix.split('!').first + ' meant: ' + answer)
     else
-      IRC.send(e.server, :privmsg, e.params[0], e.prefix.split('!').first + ' thinks ' + CHANNEL_MEMORY[channel][0] + ' meant: ' + answer)
+      privmsg(params[0], prefix.split('!').first + ' thinks ' + CHANNEL_MEMORY[channel][0] + ' meant: ' + answer)
     end
 
   else
@@ -106,13 +106,13 @@ IRC.on :privmsg do |e|
   end
 end
 
-IRC.on :ping do |e|
-  IRC.send(e.server, :pong, e.params[0])
+IRC.on :ping do
+  pong params[0]
 end
 
-IRC.on :all do |e|
-  prefix = "(#{e.prefix}) " unless e.prefix.empty?
-  puts "#{e.server}: #{prefix}#{e.command} #{e.params.inspect}"
+IRC.on :all do
+  prefix_str = "(#{prefix}) " unless prefix.empty?
+  puts "#{server}: #{prefix_str}#{command} #{params.inspect}"
 end
 
 IRC.connect

@@ -9,7 +9,7 @@ module IRC
     end
     
     def on(event, &block)
-      @handlers[event.to_s.downcase.to_sym] = block
+      @handlers[event.to_s.downcase.to_sym] = Callback.new(block)
     end
     
     Config = Struct.new(:address, :port, :nick, :ident, :realname, :ssl)
