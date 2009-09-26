@@ -56,6 +56,10 @@ module IRC
         send(:join, channel)
       end
 
+      def pong(msg)
+        send(:pong, msg)
+      end
+
     end
   end
 end
