@@ -18,6 +18,8 @@ Gem::Specification.new do |s|
   s.files = [
     ".gitignore",
      "LICENSE",
+     "Rakefile",
+     "VERSION",
      "examples/bot.rb",
      "examples/regex_bot.rb",
      "examples/relay.rb",
@@ -29,7 +31,8 @@ Gem::Specification.new do |s|
      "lib/on_irc/dsl_accessor.rb",
      "lib/on_irc/event.rb",
      "lib/on_irc/parser.rb",
-     "lib/on_irc/server.rb"
+     "lib/on_irc/server.rb",
+     "on_irc.gemspec"
   ]
   s.homepage = %q{http://github.com/tsion/on_irc}
   s.rdoc_options = ["--charset=UTF-8"]
@@ -47,9 +50,12 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
+      s.add_runtime_dependency(%q<eventmachine>, [">= 0"])
     else
+      s.add_dependency(%q<eventmachine>, [">= 0"])
     end
   else
+    s.add_dependency(%q<eventmachine>, [">= 0"])
   end
 end
 

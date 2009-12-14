@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-require File.join(File.dirname(__FILE__), '..', 'lib', 'on_irc')
+require 'on_irc'
 
 MAX_BANGS = 3
 CH_USER_MEMORY = {}

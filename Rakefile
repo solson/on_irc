@@ -1,3 +1,7 @@
+require 'rake'
+
+$LOAD_PATH.unshift('lib')
+
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gemspec|
@@ -7,8 +11,12 @@ begin
     gemspec.email = "scott@scott-olson.org"
     gemspec.homepage = "http://github.com/tsion/on_irc"
     gemspec.authors = ["Scott Olson"]
+
+    gemspec.add_dependency "eventmachine"
   end
 rescue LoadError
   puts "Jeweler not available. Install it with: sudo gem install jeweler"
 end
+
+Jeweler::GemcutterTasks.new
 
