@@ -1,4 +1,4 @@
-module IRC
+class IRC
   class Event
     attr_accessor :server, :prefix, :command, :params
   

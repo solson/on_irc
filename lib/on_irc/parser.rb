@@ -1,4 +1,4 @@
-module IRC
+class IRC
   module Parser  
     def self.parse(line)      
       prefix = ''
