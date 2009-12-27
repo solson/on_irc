@@ -47,6 +47,14 @@ class IRC
 
       alias msg privmsg
 
+      def respond(message)
+        if params[0].start_with? '#'
+          send_cmd(:privmsg, params[0], message)
+        else
+          send_cmd(:privmsg, prefix.split('!').first, message)
+        end
+      end
+
       def join(channel)
         send_cmd(:join, channel)
       end
