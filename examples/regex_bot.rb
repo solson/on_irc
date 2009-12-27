@@ -90,8 +90,8 @@ bot.on :ping do
 end
 
 bot.on :all do
-  prefix_str = "(#{prefix}) " unless prefix.empty?
-  puts "#{server}: #{prefix_str}#{command} #{params.inspect}"
+  p = "(#{prefix}) " unless prefix.empty?
+  puts "#{server.name}: #{p}#{command} #{params.inspect}"
 end
 
 bot.connect
