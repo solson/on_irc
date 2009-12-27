@@ -6,32 +6,20 @@ class IRC
       @server = server
     end
 
-    def config
-      @server.config
-    end
-
-    def command(str)
-      send_data(str + "\r\n")
-    end
-
     ## EventMachine callbacks
     def post_init
-      command "USER asdf * * :asdf"
-      command "NICK asdf"
+      send_data("USER #{@server.ident || @server.irc.ident} * * #{@server.realname || @server.irc.realname}\r\n")
+      send_data("NICK #{@server.nick || @server.irc.nick}\r\n")
+    rescue => e
+      p e
     end
 
     def receive_line(line)
-      parsed_line = Parser.parse(line)
-      event = Event.new(@server, parsed_line[:prefix], parsed_line[:command].downcase.to_sym, parsed_line[:params])
-
-      @server.handle_event(event)
+      @server.receive_line(line)
     end
 
     def unbind
-      EM.add_timer(3) do
-        reconnect(config.address, config.port)
-        post_init
-      end
+      @server.unbind
     end
   end
 end

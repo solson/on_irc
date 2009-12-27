@@ -1,6 +1,6 @@
 class IRC
   class Server
-    attr_accessor :config, :connection, :handlers
+    attr_accessor :config, :connection, :handlers, :name, :irc
     config_accessor :address, :port, :nick, :ident, :realname, :ssl
 
     def initialize(irc, name, config)
@@ -31,6 +31,22 @@ class IRC
         @handlers[event.command].call(@irc, event)
       elsif @irc.handlers[event.command]
         @irc.handlers[event.command].call(@irc, event)
+      end
+    end
+
+    # Eventmachine callbacks
+    def receive_line(line)
+      parsed_line = Parser.parse(line)
+      event = Event.new(self, parsed_line[:prefix],
+                        parsed_line[:command].downcase.to_sym,
+                        parsed_line[:params])
+      handle_event(event)
+    end
+
+    def unbind
+      EM.add_timer(3) do
+        connection.reconnect(config.address, config.port)
+        connection.post_init
       end
     end
   end
