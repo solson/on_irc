@@ -31,9 +31,9 @@ bot.on :ping do
   pong params[0]
 end
 
-bot.on :all do |e|
-  prefix = "(#{e.prefix}) " unless e.prefix.empty?
-  puts "#{e.server}: #{prefix}#{e.command} #{e.params.inspect}"
+bot.on :all do
+  p = "(#{prefix}) " unless prefix.empty?
+  puts "#{server.name}: #{p}#{command} #{params.inspect}"
 end
 
 bot.connect

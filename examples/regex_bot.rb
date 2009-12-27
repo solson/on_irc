@@ -1,30 +1,30 @@
 #!/usr/bin/env ruby
-require 'on_irc'
+require File.join(File.dirname(__FILE__), '..', 'lib', 'on_irc')
 
 MAX_BANGS = 3
 CH_USER_MEMORY = {}
 CHANNEL_MEMORY = {}
 
-IRC.configure do
+bot = IRC.new do
   nick 'reggie'
   ident 'reggie'
   realname 'uses on_irc Ruby IRC library'
-  
+
   server :eighthbit do
     address 'irc.eighthbit.net'
   end
-  
+
 #  server :freenode do
 #    address 'irc.freenode.org'
 #  end
 end
 
-IRC[:eighthbit].on :'001' do
+bot[:eighthbit].on :'001' do
   join '#programming'
   join '#offtopic'
 end
 
-IRC.on :privmsg do
+bot.on :privmsg do
   next unless params[0][0,1] == '#' # make sure regex replace only happens in channels
   channel = params[0]
   nick = prefix.split('!').first
@@ -85,14 +85,14 @@ IRC.on :privmsg do
   end
 end
 
-IRC.on :ping do
+bot.on :ping do
   pong params[0]
 end
 
-IRC.on :all do
+bot.on :all do
   prefix_str = "(#{prefix}) " unless prefix.empty?
   puts "#{server}: #{prefix_str}#{command} #{params.inspect}"
 end
 
-IRC.connect
+bot.connect
 
