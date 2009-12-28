@@ -20,8 +20,8 @@ class IRC
       end
 
       # @event accessors
-      def prefix
-        @event.prefix
+      def sender
+        @event.sender
       end
 
       def command

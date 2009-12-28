@@ -1,15 +1,15 @@
 class IRC
   class Event
-    attr_accessor :server, :prefix, :command, :params
-  
+    attr_accessor :server, :sender, :command, :params
+
     def initialize(server, prefix, command, params)
       @server = server
-      @prefix = prefix
+      @sender = Sender.new(prefix)
       @command = command
       @params = params
     end
-    
-    
+
+
   end
 end
 
