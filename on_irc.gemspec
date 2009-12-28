@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{on_irc}
-  s.version = "2.0.0"
+  s.version = "2.0.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Scott Olson"]
-  s.date = %q{2009-12-13}
+  s.date = %q{2009-12-27}
   s.description = %q{An event driven IRC library with an easy to use DSL}
   s.email = %q{scott@scott-olson.org}
   s.extra_rdoc_files = [
@@ -31,6 +31,7 @@ Gem::Specification.new do |s|
      "lib/on_irc/dsl_accessor.rb",
      "lib/on_irc/event.rb",
      "lib/on_irc/parser.rb",
+     "lib/on_irc/sender.rb",
      "lib/on_irc/server.rb",
      "on_irc.gemspec"
   ]
