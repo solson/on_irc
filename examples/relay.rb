@@ -5,11 +5,11 @@ bot = IRC.new do
   nick 'on_irc-relay'
   ident 'on_irc'
   realname 'on_irc Ruby IRC library - relay example'
-  
+
   server :eighthbit do
     address 'irc.eighthbit.net'
   end
-  
+
   server :freenode do
     address 'irc.freenode.org'
   end
@@ -27,9 +27,9 @@ end
 bot.on :privmsg do
   case params[1]
   when /^fn> (.*)/
-    bot[:freenode].send_cmd(:privmsg, '#botters', "<8b:#{prefix.split('!').first}> #{$1}") if params[0] == '#offtopic' && server.name == :eighthbit
+    bot[:freenode].send_cmd(:privmsg, '#botters', "<8b:#{sender.nick}> #{$1}") if params[0] == '#offtopic' && server.name == :eighthbit
   when /^8b> (.*)/
-    bot[:eighthbit].send_cmd(:privmsg, '#offtopic', "<fn:#{prefix.split('!').first}> #{$1}") if params[0] == '#botters' && server.name == :freenode
+    bot[:eighthbit].send_cmd(:privmsg, '#offtopic', "<fn:#{sender.nick}> #{$1}") if params[0] == '#botters' && server.name == :freenode
   end
 end
 
@@ -38,7 +38,7 @@ bot.on :ping do
 end
 
 bot.on :all do
-  p = "(#{prefix}) " unless prefix.empty?
+  p = "(#{sender}) " unless sender.empty?
   puts "#{server.name}: #{p}#{command} #{params.inspect}"
 end
 

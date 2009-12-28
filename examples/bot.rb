@@ -5,7 +5,7 @@ bot = IRC.new do
   nick 'on_irc'
   ident 'on_irc'
   realname 'on_irc Ruby IRC library'
-  
+
   server :eighthbit do
     address 'irc.eighthbit.net'
   end
@@ -19,9 +19,9 @@ end
 bot.on :privmsg do
   case params[1]
   when '!ping'
-    msg(params[0], prefix.split('!').first + ': pong')
+    respond "#{sender.nick}: pong"
   when /^!echo (.*)/
-    msg(params[0], prefix.split('!').first + ': ' + $1)
+    respond "#{sender.nick}: #{$1}"
   when /^!join (.*)/
     join $1
   end
@@ -32,7 +32,7 @@ bot.on :ping do
 end
 
 bot.on :all do
-  p = "(#{prefix}) " unless prefix.empty?
+  p = "(#{sender}) " unless sender.empty?
   puts "#{server.name}: #{p}#{command} #{params.inspect}"
 end
 
