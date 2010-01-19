@@ -11,10 +11,15 @@ class IRC
     end
 
     def send_cmd(cmd, *args)
+      # remove nil entries
+      args.compact!
       # prepend last arg with : only if it exists. it's really ugly
       args[-1] = ":#{args[-1]}" if args[-1]
       connection.send_data(cmd.to_s.upcase + ' ' + args.join(' ') + "\r\n")
     end
+
+    # basic IRC commands
+    include Commands
 
     def on(event, &block)
       @handlers[event.to_s.downcase.to_sym] = Callback.new(block)

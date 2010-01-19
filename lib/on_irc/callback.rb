@@ -37,32 +37,19 @@ class IRC
       end
 
       # commands
+      include Commands
+
       def send_cmd(cmd, *args)
         @event.server.send_cmd(cmd, *args)
       end
 
-      def privmsg(target, message)
-        send_cmd(:privmsg, target, message)
-      end
-
-      alias msg privmsg
-
       def respond(message)
         if params[0].start_with? '#'
-          send_cmd(:privmsg, params[0], message)
+          privmsg(params[0], message)
         else
-          send_cmd(:privmsg, prefix.split('!').first, message)
+          privmsg(sender.nick, message)
         end
       end
-
-      def join(channel)
-        send_cmd(:join, channel)
-      end
-
-      def pong(msg)
-        send_cmd(:pong, msg)
-      end
-
     end
   end
 end

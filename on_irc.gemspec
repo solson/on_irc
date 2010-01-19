@@ -9,22 +9,19 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Scott Olson"]
-  s.date = %q{2009-12-27}
+  s.date = %q{2010-01-18}
   s.description = %q{An event driven IRC library with an easy to use DSL}
   s.email = %q{scott@scott-olson.org}
   s.extra_rdoc_files = [
     "LICENSE"
   ]
   s.files = [
-    ".gitignore",
-     "LICENSE",
+    "LICENSE",
      "Rakefile",
      "VERSION",
-     "examples/bot.rb",
-     "examples/regex_bot.rb",
-     "examples/relay.rb",
      "lib/on_irc.rb",
      "lib/on_irc/callback.rb",
+     "lib/on_irc/commands.rb",
      "lib/on_irc/config.rb",
      "lib/on_irc/config_accessor.rb",
      "lib/on_irc/connection.rb",
@@ -32,8 +29,7 @@ Gem::Specification.new do |s|
      "lib/on_irc/event.rb",
      "lib/on_irc/parser.rb",
      "lib/on_irc/sender.rb",
-     "lib/on_irc/server.rb",
-     "on_irc.gemspec"
+     "lib/on_irc/server.rb"
   ]
   s.homepage = %q{http://github.com/tsion/on_irc}
   s.rdoc_options = ["--charset=UTF-8"]

@@ -11,6 +11,7 @@ begin
     gemspec.email = "scott@scott-olson.org"
     gemspec.homepage = "http://github.com/tsion/on_irc"
     gemspec.authors = ["Scott Olson"]
+    gemspec.files = FileList["[A-Z]*", "lib/**/*"]
 
     gemspec.add_dependency "eventmachine"
   end
