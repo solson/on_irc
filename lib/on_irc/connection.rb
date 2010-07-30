@@ -15,7 +15,7 @@ class IRC
     end
 
     def receive_line(line)
-      @server.receive_line(line.force_encoding('utf-8'))
+      @server.receive_line(RUBY_VERSION < "1.9" ? line : line.force_encoding('utf-8'))
     end
 
     def unbind
