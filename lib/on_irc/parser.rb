@@ -8,11 +8,11 @@ class IRC
       
       if msg.peek(1) == ':'
         msg.pos += 1
-        prefix = msg.scan /\S+/
+        prefix = msg.scan /\S+/u
         msg.skip /\s+/
       end
       
-      command = msg.scan /\S+/
+      command = msg.scan /\S+/u
       
       until msg.eos?
         msg.skip /\s+/
@@ -22,7 +22,7 @@ class IRC
           params << msg.rest
           msg.terminate
         else
-          params << msg.scan(/\S+/)
+          params << msg.scan(/\S+/u)
         end
       end
       
