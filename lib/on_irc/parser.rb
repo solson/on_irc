@@ -4,7 +4,7 @@ class IRC
       prefix = ''
       command = ''
       params = []
-      msg = StringScanner.new(line)
+      msg = StringScanner.new(line.unpack('C*').pack('U*'))
       
       if msg.peek(1) == ':'
         msg.pos += 1
