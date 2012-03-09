@@ -15,7 +15,8 @@ class IRC
       args.compact!
       # prepend last arg with : only if it exists. it's really ugly
       args[-1] = ":#{args[-1]}" if args[-1]
-      connection.send_data(cmd.to_s.upcase + ' ' + args.join(' ') + "\r\n")
+      args = args.join(' ').gsub(/[\r\n]/, '')
+      connection.send_data("#{cmd.to_s.upcase} #{args}\r\n")
     end
 
     # basic IRC commands
