@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "on_irc"
-  s.version = "2.1.4"
+  s.version = "2.1.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Scott Olson"]
-  s.date = "2012-02-09"
+  s.date = "2012-03-09"
   s.description = "An event driven IRC library with an easy to use DSL"
   s.email = "scott@scott-olson.org"
   s.extra_rdoc_files = [
@@ -33,7 +33,7 @@ Gem::Specification.new do |s|
   ]
   s.homepage = "http://github.com/tsion/on_irc"
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.11"
+  s.rubygems_version = "1.8.17"
   s.summary = "An event driven IRC library with an easy to use DSL"
 
   if s.respond_to? :specification_version then

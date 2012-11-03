@@ -7,7 +7,7 @@ bot = IRC.new do
   realname 'on_irc Ruby IRC library'
 
   server :eighthbit do
-    address 'irc.eighthbit.net'
+    address 'irc.tenthbit.net'
   end
 end
 
