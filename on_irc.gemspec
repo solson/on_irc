@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.authors = ["Scott Olson"]
   s.date = "2012-03-09"
   s.description = "An event driven IRC library with an easy to use DSL"
-  s.email = "scott@scott-olson.org"
+  s.email = "scott@solson.me"
   s.extra_rdoc_files = [
     "LICENSE"
   ]
